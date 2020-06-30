@@ -1,9 +1,8 @@
-from server.scraper.siteScrapers import AllRecipes, FoodNetwork
+# from server.scraper.siteScrapers import AllRecipes, FoodNetwork
+from server.scraper.siteScrapers import GeneralPurpose
 import urllib.parse as parseURL
 
 # Sites
-
-
 class URLDispatcher:
       
   def handleRequestForRecipe(self, data):
@@ -22,13 +21,15 @@ class URLDispatcher:
       return {"ingredients": []}
 
   def dispatch(self, urlParsedDict):
-    detailedRecipe = dict()
-    if urlParsedDict.netloc == 'www.allrecipes.com':
-      fullURL= urlParsedDict.scheme + "://" + urlParsedDict.netloc + urlParsedDict.path
-      detailedRecipe  = AllRecipes.getRecipeData(fullURL)
+    fullURL= urlParsedDict.scheme + "://" + urlParsedDict.netloc + urlParsedDict.path
+    detailedRecipe = GeneralPurpose.getRecipeData(fullURL)
+
+    # if urlParsedDict.netloc == 'www.allrecipes.com':
+    #   fullURL= urlParsedDict.scheme + "://" + urlParsedDict.netloc + urlParsedDict.path
+    #   detailedRecipe  = AllRecipes.getRecipeData(fullURL)
       
-    elif urlParsedDict.netloc == 'www.foodnetwork.com':
-      fullURL= urlParsedDict.scheme + "://" + urlParsedDict.netloc + urlParsedDict.path
-      detailedRecipe = FoodNetwork.getRecipeData(fullURL)
+    # elif urlParsedDict.netloc == 'www.foodnetwork.com':
+    #   fullURL= urlParsedDict.scheme + "://" + urlParsedDict.netloc + urlParsedDict.path
+    #   detailedRecipe = FoodNetwork.getRecipeData(fullURL)
 
     return detailedRecipe
