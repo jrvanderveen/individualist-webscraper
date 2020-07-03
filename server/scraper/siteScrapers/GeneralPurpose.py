@@ -6,7 +6,6 @@ class GeneralPurpose(object):
     def getRecipeData(url):
         # give the url as a string, it can be url from any site listed below
         try:
-
             scraper = scrape_me(url)
             if(scraper.title() == "" or scraper.ingredients() == []):
                 return dict({"error": "Recipe not found"})
