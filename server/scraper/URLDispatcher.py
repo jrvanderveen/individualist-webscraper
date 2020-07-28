@@ -7,7 +7,7 @@ import urllib.parse as parseURL
 
 class URLDispatcher:
 
-    def handleRequestForRecipe(self, data):
+    def handleRequestForFullRecipe(self, data):
         print(data)
         if "url" in data:
             urlParsedDict = parseURL.urlparse(data["url"])
@@ -15,25 +15,25 @@ class URLDispatcher:
         else:
             return {}
 
+    def handleRequestForRecipe(self, data):
+        print(data)
+        if "url" in data:
+            urlParsedDict = parseURL.urlparse(data["url"])
+            recipe = self.dispatch(urlParsedDict)
+            return {"URL": recipe["URL"], "name": recipe["name"], "servings": recipe["servings"], "ingredients": recipe["ingredients"]}
+        else:
+            return {}
+
     def handleRequestForIngredients(self, data):
         if "url" in data:
             urlParsedDict = parseURL.urlparse(data["url"])
-            recipeData = self.dispatch(urlParsedDict)
-            return {"ingredients": recipeData["ingredients"]} if "ingredients" in recipeData else {"ingredients": []}
+            recipe = self.dispatch(urlParsedDict)
+            return {"ingredients": recipe["ingredients"]}
         else:
-            return {"ingredients": []}
+            return {}
 
     def dispatch(self, urlParsedDict):
         fullURL = urlParsedDict.scheme + "://" + \
             urlParsedDict.netloc + urlParsedDict.path
-        detailedRecipe = GeneralPurpose.getRecipeData(fullURL)
-
-        # if urlParsedDict.netloc == 'www.allrecipes.com':
-        #   fullURL= urlParsedDict.scheme + "://" + urlParsedDict.netloc + urlParsedDict.path
-        #   detailedRecipe  = AllRecipes.getRecipeData(fullURL)
-
-        # elif urlParsedDict.netloc == 'www.foodnetwork.com':
-        #   fullURL= urlParsedDict.scheme + "://" + urlParsedDict.netloc + urlParsedDict.path
-        #   detailedRecipe = FoodNetwork.getRecipeData(fullURL)
-
-        return detailedRecipe
+        test = GeneralPurpose.getRecipeData(fullURL)
+        return test
